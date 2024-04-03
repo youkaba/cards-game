@@ -2,6 +2,7 @@ package com.example.cardsgame.adapters.secondary.gateways.repositories;
 
 import com.example.cardsgame.businesslogic.exceptions.NotFoundException;
 import com.example.cardsgame.businesslogic.gateways.GameRepository;
+import com.example.cardsgame.businesslogic.models.Deck;
 import com.example.cardsgame.businesslogic.models.Game;
 
 import java.util.*;
@@ -31,6 +32,15 @@ public class InMemoryGameRepository implements GameRepository {
     @Override
     public void remove(Game game) {
         games.remove(game);
+    }
+
+    @Override
+    public Optional<Deck> findDeckId(UUID deckId) {
+        return games.stream()
+                .map(Game::getDecks)
+                .map(decks -> decks.get(deckId))
+                .filter(Objects::nonNull)
+                .findFirst();
     }
 
 }

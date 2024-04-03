@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class InMemoryDeckRepository implements DeckRepository {
 
-    private Map<String, Deck> decks = new HashMap<>();
+    private final Map<String, Deck> decks = new HashMap<>();
 
     @Override
     public void createDeck(Deck deck) {
@@ -31,6 +31,11 @@ public class InMemoryDeckRepository implements DeckRepository {
                 .findFirst()
                 .map(Map.Entry::getValue)
                 .orElseThrow(() -> new NotFoundException("Deck %s does not exist".formatted(deckId.toString())));
+    }
+
+    @Override
+    public void removeDeck(Deck deck) {
+        decks.remove(deck.getId().toString());
     }
 
 }

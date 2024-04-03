@@ -13,3 +13,19 @@ GET http://localhost:8080/api/v1/game
 @id = variable value
 DELETE http://localhost:8080/api/v1/game/{{id}}}}
 
+###
+POST http://localhost:8080/api/v1/deck/add-deck
+
+###
+GET http://localhost:8080/api/v1/deck
+
+<> 2024-04-03T015237.200.json
+<> 2024-04-03T001508.200.json
+<> 2024-04-03T001323.200.json
+
+###
+@gameId =
+@deckId =
+PUT http://localhost:8080/api/v1/game/{{gameId}}/decks/{{deckId}}
+Content-Type: application/x-www-form-urlencoded
+

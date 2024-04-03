@@ -11,4 +11,6 @@ public interface DeckRepository {
     Map<String, Deck> allDecks();
 
     Deck byId(UUID deckId);
+
+    void removeDeck(Deck deck);
 }
