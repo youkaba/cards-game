@@ -42,4 +42,8 @@ public class UseCaseConfiguration {
     public DealCard dealCard(GameRepository gameRepository) {
         return new DealCard(gameRepository);
     }
+    @Bean
+    public NumberPlayerCards numberPlayerCards(GameRepository gameRepository) {
+        return new NumberPlayerCards(gameRepository);
+    }
 }

@@ -11,6 +11,7 @@ import com.example.cardsgame.businesslogic.usecases.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -116,6 +117,25 @@ public class GameTest {
         Card card2 = dealCardToPlayer(gameId, playerId);
         assertThat(list(card1, card2)).isNotEmpty();
 
+    }
+
+    @Test
+    @DisplayName("get list of cards for a player")
+    void getListOfCardsForAPlayer() {
+        createAGame(gameId);
+        deckRepository.createDeck(new Deck((deckId)));
+        addDeckToGameDeck();
+        addPlayerToGame(gameId, playerId);
+        dealCardToPlayer(gameId, playerId);
+        dealCardToPlayer(gameId, playerId);
+        final var actual = getListOfCard(gameId, playerId);
+        assertThat(actual).isNotEmpty()
+                .hasSize(2);
+
+    }
+
+    private Collection<Card> getListOfCard(UUID gameId, UUID playerId) {
+        return new NumberPlayerCards(gameRepository).handle(gameId, playerId);
     }
 
 

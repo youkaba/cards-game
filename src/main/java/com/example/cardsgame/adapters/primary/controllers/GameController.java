@@ -16,7 +16,8 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RequestMapping("/api/v1/game")
 public record GameController(CreateGame createGame, DeleteGame deleteGame,
                              AddDeckToGame addDeckToGame, AddPlayer addPlayer,
-                             RemovePlayer removePlayer, DealCard dealCard) {
+                             RemovePlayer removePlayer, DealCard dealCard,
+                             NumberPlayerCards numberPlayerCards) {
 
     @PostMapping("/add-game")
     @ResponseStatus(CREATED)
@@ -34,6 +35,7 @@ public record GameController(CreateGame createGame, DeleteGame deleteGame,
     public Game addDeck(@PathVariable UUID gameId, @PathVariable UUID deckId) {
         return addDeckToGame.handle(gameId, deckId);
     }
+
     @PostMapping("/add-player/{gameId}")
     public Player addPlayer(@PathVariable UUID gameId) {
         return addPlayer.handle(gameId, UUID.randomUUID());
@@ -45,9 +47,14 @@ public record GameController(CreateGame createGame, DeleteGame deleteGame,
         removePlayer.handle(gameId, playerId);
     }
 
-    @GetMapping("/deal-card/{gameId}/{playerId}")
+    @GetMapping("/players/deal-card/{gameId}/{playerId}")
     public Card dealCard(@PathVariable UUID gameId, @PathVariable UUID playerId) {
         return dealCard.handle(gameId, playerId);
+    }
+
+    @GetMapping("/players/get-cards/{gameId}/{playerId}")
+    public Collection<Card> getPlayersCards(@PathVariable UUID gameId, @PathVariable UUID playerId) {
+        return numberPlayerCards.handle(gameId, playerId);
     }
 
 
@@ -56,5 +63,6 @@ public record GameController(CreateGame createGame, DeleteGame deleteGame,
         return createGame.findAllGame();
     }
 
-    public record GameRequestBody(String name) { }
+    public record GameRequestBody(String name) {
+    }
 }
