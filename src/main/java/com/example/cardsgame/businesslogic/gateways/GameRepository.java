@@ -11,7 +11,7 @@ public interface GameRepository {
 
     Collection<Game> allGames();
 
-    Game byid(UUID gameId);
+    Game byId(UUID gameId);
 
     void remove(Game game);
 }

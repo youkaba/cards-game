@@ -21,7 +21,7 @@ public class InMemoryGameRepository implements GameRepository {
     }
 
     @Override
-    public Game byid(UUID gameId) {
+    public Game byId(UUID gameId) {
         return games.stream()
                 .filter(game -> game.getId().equals(gameId))
                 .findFirst()

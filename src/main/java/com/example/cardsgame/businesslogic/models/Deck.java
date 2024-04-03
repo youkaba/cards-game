@@ -1,5 +1,6 @@
 package com.example.cardsgame.businesslogic.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,6 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Deck {
 
     private UUID id;
+    @JsonIgnore
     private CopyOnWriteArrayList<Card> cards = new CopyOnWriteArrayList<>();
     public static final int DECK_SIZE = 52;
 

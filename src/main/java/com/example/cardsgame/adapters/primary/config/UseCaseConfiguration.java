@@ -2,6 +2,7 @@ package com.example.cardsgame.adapters.primary.config;
 
 import com.example.cardsgame.businesslogic.gateways.DeckRepository;
 import com.example.cardsgame.businesslogic.gateways.GameRepository;
+import com.example.cardsgame.businesslogic.usecases.AddDeckToGame;
 import com.example.cardsgame.businesslogic.usecases.CreateDeck;
 import com.example.cardsgame.businesslogic.usecases.CreateGame;
 import com.example.cardsgame.businesslogic.usecases.DeleteGame;
@@ -22,5 +23,9 @@ public class UseCaseConfiguration {
     @Bean
     public CreateDeck createDeck(DeckRepository deckRepository) {
         return new CreateDeck(deckRepository);
+    }
+    @Bean
+    public AddDeckToGame addDeckToGame(GameRepository gameRepository, DeckRepository deckRepository) {
+        return new AddDeckToGame(gameRepository, deckRepository);
     }
 }

@@ -13,7 +13,7 @@ public class DeleteGame {
     }
 
     public void handle(UUID gameId) {
-        var game = gameRepository.byid(gameId);
+        var game = gameRepository.byId(gameId);
         gameRepository.remove(game);
     }
 }
