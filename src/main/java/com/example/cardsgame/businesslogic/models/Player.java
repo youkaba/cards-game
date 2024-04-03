@@ -14,8 +14,14 @@ import java.util.UUID;
 public class Player {
     private final UUID id;
     private final List<Card> cards = new ArrayList<>();
+    private Integer totalValue = 0;
 
     public Player(UUID id) {
         this.id = id;
+    }
+
+    public void addCard(Card card) {
+        cards.add(card);
+        totalValue += card.getValue();
     }
 }

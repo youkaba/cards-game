@@ -103,6 +103,21 @@ public class GameTest {
         assertAddDeck(Map.of(deckId, new Deck(deckId)));
     }
 
+    @Test
+    @DisplayName("deal cards to player")
+    void dealCardsToPlayer() {
+        createAGame(gameId);
+        deckRepository.createDeck(new Deck((deckId)));
+        addDeckToGameDeck();
+        addPlayerToGame(gameId, playerId);
+        dealCardToPlayer(gameId, playerId);
+        dealCardToPlayer(gameId, playerId);
+    }
+
+    private void dealCardToPlayer(UUID gameId, UUID playerId) {
+        new DealCard(gameRepository).handle(gameId, playerId);
+    }
+
     private void removePlayer(UUID gameId, UUID playerId) {
         new RemovePlayer(gameRepository).handle(gameId, playerId);
     }

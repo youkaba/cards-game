@@ -1,5 +1,6 @@
 package com.example.cardsgame.adapters.primary.controllers;
 
+import com.example.cardsgame.businesslogic.models.Card;
 import com.example.cardsgame.businesslogic.models.Game;
 import com.example.cardsgame.businesslogic.models.Player;
 import com.example.cardsgame.businesslogic.usecases.*;
@@ -15,7 +16,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RequestMapping("/api/v1/game")
 public record GameController(CreateGame createGame, DeleteGame deleteGame,
                              AddDeckToGame addDeckToGame, AddPlayer addPlayer,
-                             RemovePlayer removePlayer) {
+                             RemovePlayer removePlayer, DealCard dealCard) {
 
     @PostMapping("/add-game")
     @ResponseStatus(CREATED)
@@ -43,6 +44,12 @@ public record GameController(CreateGame createGame, DeleteGame deleteGame,
     public void deletePlayer(@PathVariable UUID gameId, @PathVariable UUID playerId) {
         removePlayer.handle(gameId, playerId);
     }
+
+    @GetMapping("/deal-card/{gameId}/{playerId}")
+    public Card dealCard(@PathVariable UUID gameId, @PathVariable UUID playerId) {
+        return dealCard.handle(gameId, playerId);
+    }
+
 
     @GetMapping()
     public Collection<Game> findAllGames() {

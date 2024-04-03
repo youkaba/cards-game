@@ -38,4 +38,8 @@ public class UseCaseConfiguration {
     public RemovePlayer removePlayer(GameRepository gameRepository) {
         return new RemovePlayer(gameRepository);
     }
+    @Bean
+    public DealCard dealCard(GameRepository gameRepository) {
+        return new DealCard(gameRepository);
+    }
 }

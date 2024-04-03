@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode
@@ -41,6 +39,20 @@ public class Game {
             cardDeck.returnCard(card);
         });
         players.remove(player.getId());
+
+    }
+
+    public Card dealCard(UUID playerId) {
+        var player = players.get(playerId);
+        return decks.values()
+                .stream()
+                .flatMap(deck -> {
+                    deck.shuffle();
+                    Card dealtCard = deck.dealCard(player);
+                    return Objects.isNull(dealtCard) ? Stream.empty() : Stream.of(dealtCard);
+                })
+                .findFirst()
+                .orElse(null);
 
     }
 }
