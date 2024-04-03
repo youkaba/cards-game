@@ -1,6 +1,8 @@
 package com.example.cardsgame.adapters.primary.config;
 
+import com.example.cardsgame.adapters.secondary.gateways.repositories.InMemoryDeckRepository;
 import com.example.cardsgame.adapters.secondary.gateways.repositories.InMemoryGameRepository;
+import com.example.cardsgame.businesslogic.gateways.DeckRepository;
 import com.example.cardsgame.businesslogic.gateways.GameRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -15,5 +17,11 @@ public class RepositoriesConfiguration {
     @ConditionalOnProperty("game.card.inmemory")
     public GameRepository gameRepository() {
         return new InMemoryGameRepository();
+    }
+
+    @Bean
+    @ConditionalOnProperty("game.card.inmemory")
+    public DeckRepository deckRepository() {
+        return new InMemoryDeckRepository();
     }
 }
