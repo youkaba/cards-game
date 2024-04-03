@@ -3,6 +3,7 @@ package com.example.cardsgame.unit.com.exemple.businesslogic.usecases;
 import com.example.cardsgame.adapters.secondary.gateways.repositories.InMemoryDeckRepository;
 import com.example.cardsgame.adapters.secondary.gateways.repositories.InMemoryGameRepository;
 import com.example.cardsgame.businesslogic.exceptions.NotFoundException;
+import com.example.cardsgame.businesslogic.models.Card;
 import com.example.cardsgame.businesslogic.models.Deck;
 import com.example.cardsgame.businesslogic.models.Game;
 import com.example.cardsgame.businesslogic.models.Player;
@@ -17,6 +18,7 @@ import java.util.UUID;
 import static java.util.UUID.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.util.Lists.list;
 
 public class GameTest {
     private static final UUID gameId = fromString("c56e3f3e-3e3e-3e3e-3e3e-3e3e3e3e3e3e");
@@ -110,12 +112,15 @@ public class GameTest {
         deckRepository.createDeck(new Deck((deckId)));
         addDeckToGameDeck();
         addPlayerToGame(gameId, playerId);
-        dealCardToPlayer(gameId, playerId);
-        dealCardToPlayer(gameId, playerId);
+        Card card1 = dealCardToPlayer(gameId, playerId);
+        Card card2 = dealCardToPlayer(gameId, playerId);
+        assertThat(list(card1, card2)).isNotEmpty();
+
     }
 
-    private void dealCardToPlayer(UUID gameId, UUID playerId) {
-        new DealCard(gameRepository).handle(gameId, playerId);
+
+    private Card dealCardToPlayer(UUID gameId, UUID playerId) {
+        return new DealCard(gameRepository).handle(gameId, playerId);
     }
 
     private void removePlayer(UUID gameId, UUID playerId) {
