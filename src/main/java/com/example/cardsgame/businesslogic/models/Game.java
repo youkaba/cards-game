@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
@@ -63,18 +64,13 @@ public class Game {
     }
 
     public Map<Suit, Integer> undealtCards() {
-        Map<Suit, Integer> totalSuitCount = new HashMap<>();
-        for (Suit suit : Suit.values()) {
-            totalSuitCount.put(suit, 0);
-        }
-        for (Deck deck : decks.values()) {
-            Map<Suit, Integer> deckSuitCount = deck.getDealtCardsBySuit();
-            for (Map.Entry<Suit, Integer> suitCount : deckSuitCount.entrySet()) {
-                Integer currVal = totalSuitCount.get(suitCount.getKey());
-                currVal += Deck.DECK_SIZE - suitCount.getValue();
-                totalSuitCount.put(suitCount.getKey(), currVal);
-            }
-        }
-        return totalSuitCount;
+        return decks.values()
+                .stream()
+                .flatMap(deck -> deck.getDealtCardsBySuit().entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> Deck.DECK_SIZE - entry.getValue(),
+                        Integer::sum
+                ));
     }
 }

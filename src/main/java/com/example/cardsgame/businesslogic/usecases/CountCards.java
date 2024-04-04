@@ -16,7 +16,6 @@ public class CountCards {
 
     public Map<Suit, Integer> handle(UUID gameId) {
         var game = gameRepository.byId(gameId);
-        var undealtCards = game.undealtCards();
-        return undealtCards;
+        return game.undealtCards();
     }
 }

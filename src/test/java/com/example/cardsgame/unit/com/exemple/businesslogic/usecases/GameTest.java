@@ -3,10 +3,7 @@ package com.example.cardsgame.unit.com.exemple.businesslogic.usecases;
 import com.example.cardsgame.adapters.secondary.gateways.repositories.InMemoryDeckRepository;
 import com.example.cardsgame.adapters.secondary.gateways.repositories.InMemoryGameRepository;
 import com.example.cardsgame.businesslogic.exceptions.NotFoundException;
-import com.example.cardsgame.businesslogic.models.Card;
-import com.example.cardsgame.businesslogic.models.Deck;
-import com.example.cardsgame.businesslogic.models.Game;
-import com.example.cardsgame.businesslogic.models.Player;
+import com.example.cardsgame.businesslogic.models.*;
 import com.example.cardsgame.businesslogic.usecases.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -169,12 +166,12 @@ public class GameTest {
         dealCardToPlayer(gameId, playerId);
         dealCardToPlayer(gameId, playerId2);
         dealCardToPlayer(gameId, playerId2);
-        countCartUndealtBySuit(gameId);
-
+        Map<Suit, Integer> count = countCartUndealtBySuit(gameId);
+        assertThat(count).isNotEmpty();
     }
 
-    private void countCartUndealtBySuit(UUID gameId) {
-        new CountCards(gameRepository).handle(gameId);
+    private Map<Suit, Integer> countCartUndealtBySuit(UUID gameId) {
+        return new CountCards(gameRepository).handle(gameId);
     }
 
 

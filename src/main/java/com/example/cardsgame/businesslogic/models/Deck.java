@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -71,8 +72,10 @@ public class Deck {
     }
 
     public Map<Suit, Integer> getDealtCardsBySuit() {
-        Map<Suit, Integer> dealtCardsCount = new HashMap<>();
-        dealtCardsBySuit.forEach((key, value) -> dealtCardsCount.put(key, value.get()));
-        return dealtCardsCount;
+        return dealtCardsBySuit.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, // Key is the suit
+                entry -> entry.getValue().get() // Value is the count of dealt cards
+        ));
     }
 }
