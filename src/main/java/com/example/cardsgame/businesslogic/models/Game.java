@@ -61,4 +61,20 @@ public class Game {
         listPlayers.sort(Comparator.comparing(Player::getTotalValue).reversed());
         return listPlayers;
     }
+
+    public Map<Suit, Integer> undealtCards() {
+        Map<Suit, Integer> totalSuitCount = new HashMap<>();
+        for (Suit suit : Suit.values()) {
+            totalSuitCount.put(suit, 0);
+        }
+        for (Deck deck : decks.values()) {
+            Map<Suit, Integer> deckSuitCount = deck.getDealtCardsBySuit();
+            for (Map.Entry<Suit, Integer> suitCount : deckSuitCount.entrySet()) {
+                Integer currVal = totalSuitCount.get(suitCount.getKey());
+                currVal += Deck.DECK_SIZE - suitCount.getValue();
+                totalSuitCount.put(suitCount.getKey(), currVal);
+            }
+        }
+        return totalSuitCount;
+    }
 }

@@ -69,4 +69,10 @@ public class Deck {
             cards.set(randomNumber, tempCard);
         }
     }
+
+    public Map<Suit, Integer> getDealtCardsBySuit() {
+        Map<Suit, Integer> dealtCardsCount = new HashMap<>();
+        dealtCardsBySuit.forEach((key, value) -> dealtCardsCount.put(key, value.get()));
+        return dealtCardsCount;
+    }
 }

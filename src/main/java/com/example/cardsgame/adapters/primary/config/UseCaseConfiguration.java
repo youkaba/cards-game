@@ -57,4 +57,8 @@ public class UseCaseConfiguration {
     public GetListPlayersSorted getListPlayersSorted(GameRepository gameRepository) {
         return new GetListPlayersSorted(gameRepository);
     }
+    @Bean
+    public CountCards countCards(GameRepository gameRepository) {
+        return new CountCards(gameRepository);
+    }
 }

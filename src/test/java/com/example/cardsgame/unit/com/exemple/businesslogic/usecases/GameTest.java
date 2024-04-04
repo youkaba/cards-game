@@ -150,17 +150,31 @@ public class GameTest {
         dealCardToPlayer(gameId, playerId2);
         dealCardToPlayer(gameId, playerId2);
         dealCardToPlayer(gameId, playerId3);
+        
         final var actual = getListOfCardsForAPlayers(gameId);
 
         assertThat(isFirstPlayerHasHighestTotalValue(actual)).isTrue();
 
     }
 
-    private boolean isFirstPlayerHasHighestTotalValue(Collection<Player> players) {
-        int highestTotalValue = players.iterator().next().getTotalValue();
-        return players.stream()
-                .skip(1)
-                .allMatch(player -> player.getTotalValue() <= highestTotalValue);
+    @Test
+    @DisplayName("count cards undealt by suit ")
+    void countCardsUndealtBySuit() {
+        createAGame(gameId);
+        deckRepository.createDeck(new Deck((deckId)));
+        addDeckToGameDeck();
+        addPlayerToGame(gameId, playerId);
+        addPlayerToGame(gameId, playerId2);
+        dealCardToPlayer(gameId, playerId);
+        dealCardToPlayer(gameId, playerId);
+        dealCardToPlayer(gameId, playerId2);
+        dealCardToPlayer(gameId, playerId2);
+        countCartUndealtBySuit(gameId);
+
+    }
+
+    private void countCartUndealtBySuit(UUID gameId) {
+        new CountCards(gameRepository).handle(gameId);
     }
 
 
@@ -214,6 +228,14 @@ public class GameTest {
     private void assertRemoveDeck(String message) {
         assertThat(message).isEqualTo("Deck %s already exist in game ".formatted(deckId));
     }
+
+    private static boolean isFirstPlayerHasHighestTotalValue(Collection<Player> players) {
+        int highestTotalValue = players.iterator().next().getTotalValue();
+        return players.stream()
+                .skip(1)
+                .allMatch(player -> player.getTotalValue() <= highestTotalValue);
+    }
+
 
     private void assertAddDeck(Deck deck) {
         Game game = gameRepository.byId(gameId);
