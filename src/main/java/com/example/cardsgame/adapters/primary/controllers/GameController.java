@@ -3,10 +3,12 @@ package com.example.cardsgame.adapters.primary.controllers;
 import com.example.cardsgame.businesslogic.models.Card;
 import com.example.cardsgame.businesslogic.models.Game;
 import com.example.cardsgame.businesslogic.models.Player;
+import com.example.cardsgame.businesslogic.models.Suit;
 import com.example.cardsgame.businesslogic.usecases.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -17,7 +19,8 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 public record GameController(CreateGame createGame, DeleteGame deleteGame,
                              AddDeckToGame addDeckToGame, AddPlayer addPlayer,
                              RemovePlayer removePlayer, DealCard dealCard,
-                             NumberPlayerCards numberPlayerCards) {
+                             NumberPlayerCards numberPlayerCards,
+                             CountCards countCards) {
 
     @PostMapping("/add-game")
     @ResponseStatus(CREATED)
@@ -55,6 +58,11 @@ public record GameController(CreateGame createGame, DeleteGame deleteGame,
     @GetMapping("/players/get-cards/{gameId}/{playerId}")
     public Collection<Card> getPlayersCards(@PathVariable UUID gameId, @PathVariable UUID playerId) {
         return numberPlayerCards.handle(gameId, playerId);
+    }
+
+    @GetMapping(value = "/{gameId}/count-card-by-suit")
+    public Map<Suit, Integer> getUndealtCardsCountBySuit(@PathVariable UUID gameId) {
+        return countCards.handle(gameId);
     }
 
 
