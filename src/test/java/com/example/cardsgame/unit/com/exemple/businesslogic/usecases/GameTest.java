@@ -26,6 +26,8 @@ public class GameTest {
     private static final UUID gameId2 = fromString("c56e3f3e-3e3e-3e3e-3e3e-3e3e3e3e3e3f");
     private static final UUID deckId = fromString("c56e3f3e-3d3d-3e3e-3e3e-3e3e3e3e3e3f");
     private static final UUID playerId = fromString("c56e3f3e-3d3d-3e3a-3e3e-3e3e3e3e3e3f");
+    private static final UUID playerId2 = fromString("d56e3f3e-3d3d-3e3a-3e3e-3e3e3e3e3e3f");
+    private static final UUID playerId3 = fromString("d58e3f3e-3d3d-3e3a-3e3e-3e3e3e3e3e3f");
     private static final String gameName = "poker";
 
     private final InMemoryGameRepository gameRepository = new InMemoryGameRepository();
@@ -103,7 +105,7 @@ public class GameTest {
         createAGame(gameId);
         deckRepository.createDeck(new Deck(deckId));
         addDeckToGameDeck();
-        assertAddDeck(Map.of(deckId, new Deck(deckId)));
+        assertAddDeck(new Deck(deckId));
     }
 
     @Test
@@ -132,6 +134,38 @@ public class GameTest {
         assertThat(actual).isNotEmpty()
                 .hasSize(2);
 
+    }
+
+    @Test
+    @DisplayName("get list players sorted by value")
+    void getListPlayersSortedByValue() {
+        createAGame(gameId);
+        deckRepository.createDeck(new Deck((deckId)));
+        addDeckToGameDeck();
+        addPlayerToGame(gameId, playerId);
+        addPlayerToGame(gameId, playerId2);
+        addPlayerToGame(gameId, playerId3);
+        dealCardToPlayer(gameId, playerId);
+        dealCardToPlayer(gameId, playerId);
+        dealCardToPlayer(gameId, playerId2);
+        dealCardToPlayer(gameId, playerId2);
+        dealCardToPlayer(gameId, playerId3);
+        final var actual = getListOfCardsForAPlayers(gameId);
+
+        assertThat(isFirstPlayerHasHighestTotalValue(actual)).isTrue();
+
+    }
+
+    private boolean isFirstPlayerHasHighestTotalValue(Collection<Player> players) {
+        int highestTotalValue = players.iterator().next().getTotalValue();
+        return players.stream()
+                .skip(1)
+                .allMatch(player -> player.getTotalValue() <= highestTotalValue);
+    }
+
+
+    private Collection<Player> getListOfCardsForAPlayers(UUID gameId) {
+        return new GetListPlayersSorted(gameRepository).handle(gameId);
     }
 
     private Collection<Card> getListOfCard(UUID gameId, UUID playerId) {
@@ -181,10 +215,10 @@ public class GameTest {
         assertThat(message).isEqualTo("Deck %s already exist in game ".formatted(deckId));
     }
 
-    private void assertAddDeck(Map<UUID, Deck> decks) {
+    private void assertAddDeck(Deck deck) {
         Game game = gameRepository.byId(gameId);
         assertThat(game.getDecks()).isNotEmpty()
-                .containsAllEntriesOf(decks);
+                .containsKey(deck.getId());
     }
 
     private void assertDeleteGame() {

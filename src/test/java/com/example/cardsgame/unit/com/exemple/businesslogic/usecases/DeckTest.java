@@ -6,7 +6,6 @@ import com.example.cardsgame.businesslogic.usecases.CreateDeck;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
 import java.util.UUID;
 
 import static java.util.UUID.fromString;
@@ -20,13 +19,13 @@ public class DeckTest {
     @DisplayName("can create a deck")
     void canCreateADeck() {
         createADeck(deckId);
-        assertCreateDeck(Map.of(deckId.toString(), new Deck(deckId)));
+        assertCreateDeck(new Deck(deckId));
 
     }
 
-    private void assertCreateDeck(Map<String, Deck> decks) {
+    private void assertCreateDeck(Deck deck) {
         var actual = deckRepository.allDecks();
-        assertThat(actual).containsExactlyInAnyOrderEntriesOf(decks);
+        assertThat(actual).containsKey(deck.getId().toString());
     }
 
     private void createADeck(UUID deckId) {

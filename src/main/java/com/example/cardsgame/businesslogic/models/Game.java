@@ -55,4 +55,10 @@ public class Game {
                 .orElse(null);
 
     }
+
+    public Collection<Player> findAllPlayersSortedByTotalValue() {
+        List<Player> listPlayers = new ArrayList<>(players.values());
+        listPlayers.sort(Comparator.comparing(Player::getTotalValue).reversed());
+        return listPlayers;
+    }
 }
