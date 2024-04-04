@@ -1,4 +1,4 @@
-###
+### Create game
 POST http://localhost:8080/api/v1/game/add-game
 Content-Type: application/json
 
@@ -6,26 +6,54 @@ Content-Type: application/json
   "name": "game 1"
 }
 
-###
+### Get All game
 GET http://localhost:8080/api/v1/game
 
-###
-@id = variable value
-DELETE http://localhost:8080/api/v1/game/{{id}}}}
+<> 2024-04-03T144309.200.json
+<> 2024-04-03T144135.200.json
+<> 2024-04-03T143824.200.json
 
-###
+
+### Delete game
+DELETE http://localhost:8080/api/v1/game/19bc42cb-5b98-472d-8a5a-eb9ee5f3e6c1
+
+### create new deck
 POST http://localhost:8080/api/v1/deck/add-deck
 
-###
+### Get all decks
 GET http://localhost:8080/api/v1/deck
 
-<> 2024-04-03T015237.200.json
-<> 2024-04-03T001508.200.json
-<> 2024-04-03T001323.200.json
+<> 2024-04-03T125014.200.json
 
-###
-@gameId =
-@deckId =
+
+### Add deck to a game
+@gameId = ad0d01bc-2bd4-4107-be11-b0a3aeb477aa
+@deckId =335ee7e7-b893-4f4a-ba6b-b73468b25900
 PUT http://localhost:8080/api/v1/game/{{gameId}}/decks/{{deckId}}
 Content-Type: application/x-www-form-urlencoded
 
+
+### Delete deck
+DELETE http://localhost:8080/api/v1/deck/remove-deck/308e03e6-83a6-495f-9e1f-e4ce64e1a714
+
+### Add Player
+POST http://localhost:8080/api/v1/game/add-player/{{gameId}}
+Content-Type: application/x-www-form-urlencoded
+
+<> 2024-04-03T144045.200.json
+
+###
+@playerId = 3071a07c-011b-4dca-8ecb-f92b7023fc76
+DELETE http://localhost:8080/api/v1/game/remove-player/{{gameId}}/{{playerId}}
+
+### Dealing card
+GET http://localhost:8080/api/v1/game/players/deal-card/{{gameId}}/{{playerId}}
+
+### Get all cards for player
+GET http://localhost:8080/api/v1/game/players/get-cards/{{gameId}}/{{playerId}}
+
+### Sort Player by total value
+GET http://localhost:8080/api/v1/player/{{gameId}}/sort-player-by-value
+
+### Count cards by suit
+GET http://localhost:8080/api/v1/game/{{gameId}}/count-card-by-suit
