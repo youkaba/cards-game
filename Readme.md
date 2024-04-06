@@ -11,8 +11,6 @@ along with a group of players getting cards from the game deck.
 
 ### You must provide the following operations:
 
-For further reference, please consider the following sections:
-
 * Create and delete a game
 * Create a deck 
 * Add a deck to a game deck 
